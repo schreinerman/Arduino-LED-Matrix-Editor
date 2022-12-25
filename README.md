@@ -1,7 +1,7 @@
 # IO-Expert Arduino-LED-Matrix-Editor
-LED Matrix Editor for WS2811 LEDs 
+LED Matrix Editor for WS2811 and equal based LED matrix
 
-![Web UI](./doc/webui.png =x250) ![Hardware 1](./doc/onhardware1.jpg =x250) ![Hardware 1](./doc/onhardware2.jpg =x250) 
+![Web UI](doc/webui.png =x250) ![Hardware 1](doc/onhardware1.jpg =x250) ![Hardware 1](doc/onhardware2.jpg =x250) 
 
 The IO-Expert Arduino-LED-Matrix-Editor can generate c-files which can be imported in the example arduino project in the subfolder example. 
 
