@@ -1,0 +1,150 @@
+/**
+ *******************************************************************************
+ ** Created by Manuel Schreiner
+ **
+ ** Copyright © 2022 io-expert.com. All rights reserved.
+ **
+ ** 1. Redistributions of source code must retain the above copyright notice,
+ **    this condition and the following disclaimer.
+ **
+ ** This software is provided by the copyright holder and contributors "AS IS"
+ ** and any warranties related to this software are DISCLAIMED.
+ ** The copyright owner or contributors be NOT LIABLE for any damages caused
+ ** by use of this software.
+
+ *******************************************************************************
+ */
+body {
+    background-color: #AAAAAA;
+    font-family: Arial, Helvetica, Sans-Serif;
+    Color: #222222;
+    max-width:100vw;
+    margin: 5px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    }
+
+input[type=color] {
+    width: 24px;
+    height: 24px; 
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+input[type=color]::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+}
+
+input[type=color]::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.canvascontainer {
+    display: table-cell;
+    background-color:#333333;
+    border-radius: 10px;
+    width:400px;
+    height:400px;
+    margin:auto;
+    vertical-align: middle;
+    text-align: center;
+    
+    justify-content: center;
+    align-content: center;
+}
+
+.colorpickers {
+    background-color:#333333;
+    border-radius: 10px;
+    padding:5px;
+    height:60px;
+    margin:0px;
+    width:400px;
+}
+
+table.colorpickers td {
+    padding:5px;
+    margin:0px;
+    width:24px;
+    vertical-align: middle;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.pickerbutton {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #888888;
+    border-radius: 50%;
+
+}
+
+.pickerbutton:active{
+    border-color: #FFFFFF;
+}
+
+.toolboxelement {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #AAAAAA;
+    border-width: 2px;
+    font-size: max(1em, 16px);
+}
+
+.toolbutton path {
+   fill:#FFFFFF;
+}
+.toolbutton:active {
+    opacity: 0.5;
+ }
+
+.toolboxelement:active{
+    border-color: #FFFFFF;
+}
+
+.hidden {
+    opacity:0;
+    width:24px;
+    position:absolute;
+  }
+
+.picker {
+    background-color:#FFFFFF;
+    border-style: solid;
+    border-color: #888888;
+    border-width: 5px;
+}
+
+.red {
+    background-color:#FF0000;
+}
+.yellow {
+    background-color:#FFFF00;
+}
+.green {
+    background-color:#00FF00;
+}
+.cyan {
+    background-color:#00FFFF;
+}
+.blue {
+    background-color:#0000FF;
+}
+.purple {
+    background-color:#FF00FF;
+}
+.black {
+    background-color:#000000;
+}
+.white {
+    background-color:#FFFFFF;
+}     

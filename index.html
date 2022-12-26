@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!--/*
+ *******************************************************************************
+ ** Created by Manuel Schreiner
+ **
+ ** Copyright © 2022 io-expert.com. All rights reserved.
+ **
+ ** 1. Redistributions of source code must retain the above copyright notice,
+ **    this condition and the following disclaimer.
+ **
+ ** This software is provided by the copyright holder and contributors "AS IS"
+ ** and any warranties related to this software are DISCLAIMED.
+ ** The copyright owner or contributors be NOT LIABLE for any damages caused
+ ** by use of this software.
+
+ *******************************************************************************
+ */-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" id="vp" content="width=device-width, initial-scale=0.8,maximum-scale=0.8">
+    <title>LED Matrix Editor</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#aaaaaa">
+    <meta name="msapplication-config" content="favicon/browserconfig.xml">
+    <meta name="theme-color" content="#aaaaaa">
+    <script src="mtxeditor.js"></script>
+    <script>
+        var mtxEdit = new MatrixEditor(16,16);
+
+        /**
+         * Download sketch as cpp-file
+         **/
+        function download()
+        {
+            mtxEdit.download("image.cpp");
+        }
+
+        /**
+         * Clear all
+         **/
+        function clearAll()
+        {
+            if (confirm("Warning: Erase all content?"))
+            {
+                mtxEdit.clear();
+            }
+        }
+
+        /**
+         * Update matrix settings
+         **/
+        function update()
+        {
+            var matrixwidth = document.getElementById("matrixwidth").value;
+            var matrixheight = document.getElementById("matrixheight").value;
+            var matrixlayout = document.getElementById("matrixlayout").value;
+            if (confirm("Warning: The editor will be re-configured and all content will be erased. Continue?"))
+            {
+                if ((mtxEdit.width !== matrixwidth) || (mtxEdit.height !== matrixheight))
+                {
+                    mtxEdit.setNewSize(matrixwidth,matrixheight);
+                }
+                var layout = MatrixEditor.layoutModes.leftToRightZickZack;
+                switch(matrixlayout)
+                {
+                    case "L->R Zick-Zack":
+                        layout = MatrixEditor.layoutModes.leftToRightZickZack;
+                        break;
+                    case "R->L Zick-Zack":
+                        layout = MatrixEditor.layoutModes.rightToLeftZickZack;
+                        break;
+                    case "L->R":
+                        layout = MatrixEditor.layoutModes.leftToRight;
+                        break;
+                    case "R->L":
+                        layout = MatrixEditor.layoutModes.rightToLeft;
+                        break;
+                }
+                mtxEdit.layout = layout; 
+            }   
+        }
+
+        /**
+         * allback as soon color was set
+         * 
+         * @param {*} event event parameters
+         * 
+         **/
+        function onColorSet(event)
+        {
+            setColor(event.target.value); 
+        }
+
+         /**
+         * Set new color
+         * 
+         * @param {*} color new color
+         * 
+         **/
+        function setColor(color)
+        {
+            mtxEdit.setColor(color); 
+            var colorPicker = document.getElementById("colorpicker");
+            var currentColor = document.getElementById("currentcolor");
+            if (colorPicker.value != color)
+            {
+                colorPicker.value = color;
+            }
+            currentColor.style.backgroundColor = color;
+        }
+
+        /**
+         * Open color picker
+         **/ 
+        function openColorPicker()
+        {
+            var colorPicker = document.getElementById("colorpicker");
+            colorPicker.focus();
+            colorPicker.click();
+        }
+
+        /**
+         * Tap handler to ignore double taps
+         *
+         * @param {*} event event parameters
+         **/
+        function tapHandler(event) {
+            if(!tapedTwice) {
+                tapedTwice = true;
+                setTimeout( function() { tapedTwice = false; }, 300 );
+                return false;
+            }
+            event.preventDefault();
+        }
+
+        /**
+         * Prevent default
+         * 
+         * @param {*} event event parameters
+         **/
+        function preventDefault(event) {
+            event.preventDefault() ;
+        }
+
+        function focusout(event)
+        {
+            window.setTimeout(() => {
+                var vp = document.getElementById('vp');
+                vp.setAttribute('content','width=device-width, initial-scale=0.8, maximum-scale=0.8');
+            },100);
+        }
+
+        window.addEventListener("touchmove",preventDefault, { passive: false });
+        window.addEventListener("touchstart",tapHandler, { passive: false });
+        window.onscroll = function () { window.scrollTo(0, 0); };
+
+        console.log(mtxEdit);
+    </script>
+</head>
+<body>
+    <center>
+        <table style="margin:10px;" class="colorpickers">
+            <tr>
+                <td style="white-space: nowrap;">
+                    <svg style="width:20px;height:20px;vertical-align: middle;" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M9,11H15V8L19,12L15,16V13H9V16L5,12L9,8V11M2,20V4H4V20H2M20,20V4H22V20H20Z" />
+                    </svg>
+                    <input type="text" id="matrixwidth" value="16" size="2" class="toolboxelement">
+                </td>
+                <td style="white-space: nowrap;">
+                    <svg style="width:20px;height:20px;vertical-align: middle;" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M13,9V15H16L12,19L8,15H11V9H8L12,5L16,9H13M4,2H20V4H4V2M4,20H20V22H4V20Z" />
+                    </svg>
+                    <input type="text" id="matrixheight" value="16" size="2" class="toolboxelement">
+                </td>
+                <td>
+                    <select name="matrixlayout" id="matrixlayout">
+                        <option value="L->R Zick-Zack">L->R Zick-Zack</option>
+                        <option value="R->L Zick-Zack">R->L Zick-Zack</option>
+                        <option value="L->R">L->R</option>
+                        <option value="R->L">R->L</option>
+                    </select>
+                </td>
+                <td>
+                    <div onclick="update()" title="update matrix settings" class="toolbutton">
+                        <svg style="width:20px;height:20px" viewBox="0 0 24 24">
+                            <path fill="#FFFFFF" d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2M18 11H13L14.81 9.19A3.94 3.94 0 0 0 12 8A4 4 0 1 0 15.86 13H17.91A6 6 0 1 1 12 6A5.91 5.91 0 0 1 16.22 7.78L18 6Z" />
+                        </svg>
+                    </div>
+                </td>
+                <td style="width: 2px; border-width: 0px; border-left: 2px;border-style: dotted;border-color: #FFFFFF;">
+                </td>
+                <td>
+                    <div onclick="download()" title="download C++ file" class="toolbutton">
+                        <svg style="width:20px;height:20px" viewBox="0 0 24 24">
+                            <path fill="#FFFFFF" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                        </svg>
+                    </div>
+                </td>
+                <td>
+                    <div onclick="clearAll()" title="erase content" class="toolbutton">
+                        <svg style="width:20px;height:20px" viewBox="0 0 24 24">
+                            <path fill="#FFFFFF" d="M16.24,3.56L21.19,8.5C21.97,9.29 21.97,10.55 21.19,11.34L12,20.53C10.44,22.09 7.91,22.09 6.34,20.53L2.81,17C2.03,16.21 2.03,14.95 2.81,14.16L13.41,3.56C14.2,2.78 15.46,2.78 16.24,3.56M4.22,15.58L7.76,19.11C8.54,19.9 9.8,19.9 10.59,19.11L14.12,15.58L9.17,10.63L4.22,15.58Z" />
+                        </svg>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <table style="margin:10px;" class="colorpickers">
+            <tr>
+                <td>
+                    <div id="currentcolor" class="pickerbutton picker" onclick="openColorPicker()"></div>
+                    <input type="color" id="colorpicker" value="#FFFFFF" tabindex=-1 class="hidden">
+                </td>
+
+                <td><div class="pickerbutton black" onclick="setColor('#000000')"></div> </td>
+                <td><div class="pickerbutton white" onclick="setColor('#FFFFFF')"></div> </td>
+                <td><div class="pickerbutton red" onclick="setColor('#FF0000')"></div> </td>
+                <td><div class="pickerbutton yellow" onclick="setColor('#FFFF00')"></div> </td>
+                <td><div class="pickerbutton green" onclick="setColor('#00FF00')"></div> </td>
+                <td><div class="pickerbutton cyan" onclick="setColor('#00FFFF')"></div> </td>
+                <td><div class="pickerbutton blue" onclick="setColor('#0000FF')"></div> </td>
+                <td><div class="pickerbutton purple" onclick="setColor('#FF00FF')"></div> </td>
+            </tr>
+        </table>
+        <div class="canvascontainer">
+            <canvas id="matrixcanvas" class="canvas" width="350" height="350">
+
+            </canvas>
+        </div>
+        
+        <p>(c) Copyright IO-Expert - Manuel Schreiner</p>
+        <p>Source code available at: <a href="http://github.com/schreinerman/Arduino-LED-Matrix-Editor">http://github.com/schreinerman/Arduino-LED-Matrix-Editor</a></p>
+        
+    </center>
+
+    <script>
+        var colorPicker = document.getElementById("colorpicker");
+        colorPicker.addEventListener("input", onColorSet, false);
+        colorPicker.addEventListener("change", onColorSet, false);
+        var matrixwidth = document.getElementById("matrixwidth");
+        var matrixheight = document.getElementById("matrixheight");
+        var matrixlayout = document.getElementById("matrixlayout");
+        matrixwidth.addEventListener("focusout",focusout);
+        matrixheight.addEventListener("focusout",focusout);
+        matrixlayout.addEventListener("focusout",focusout);
+        window.resize
+    </script>
+    
+</body>
+</html>
