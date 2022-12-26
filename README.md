@@ -10,8 +10,7 @@ To run Arduino LED Matrix Editor, navigate to: http://www.io-expert.com/ledmatri
 To run Arduino LED Matrix Editor with a local webserver, run:
 ```python -m http.server 8080```
 
-LICENSE
-#######
+## LICENSE
 Created by Manuel Schreiner
 Copyright © 2022 io-expert.com. All rights reserved.
 
