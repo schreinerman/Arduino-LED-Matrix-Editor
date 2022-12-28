@@ -74,16 +74,16 @@
                 var layout = MatrixEditor.layoutModes.leftToRightZickZack;
                 switch(matrixlayout)
                 {
-                    case "L->R Zick-Zack":
+                    case "Left-Right,Right-Left":
                         layout = MatrixEditor.layoutModes.leftToRightZickZack;
                         break;
-                    case "R->L Zick-Zack":
+                    case "Right-Left,Left-Right":
                         layout = MatrixEditor.layoutModes.rightToLeftZickZack;
                         break;
-                    case "L->R":
+                    case "Left-Right,Left-Right":
                         layout = MatrixEditor.layoutModes.leftToRight;
                         break;
-                    case "R->L":
+                    case "Right-Left,Right-Left":
                         layout = MatrixEditor.layoutModes.rightToLeft;
                         break;
                 }
@@ -186,10 +186,10 @@
                 </td>
                 <td>
                     <select name="matrixlayout" id="matrixlayout">
-                        <option value="L->R Zick-Zack">L->R Zick-Zack</option>
-                        <option value="R->L Zick-Zack">R->L Zick-Zack</option>
-                        <option value="L->R">L->R</option>
-                        <option value="R->L">R->L</option>
+                        <option value="Left-Right,Right-Left">Left-Right,Right-Left</option>
+                        <option value="Right-Left,Left-Right">Right-Left,Left-Right</option>
+                        <option value="Left-Right,Left-Right">Left-Right,Left-Right</option>
+                        <option value="Right-Left,Right-Left">Right-Left,Right-Left</option>
                     </select>
                 </td>
                 <td>
@@ -256,7 +256,6 @@
         matrixwidth.addEventListener("focusout",focusout);
         matrixheight.addEventListener("focusout",focusout);
         matrixlayout.addEventListener("focusout",focusout);
-        window.resize
     </script>
     
 </body>
